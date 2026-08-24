@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Primeiro Acesso | Cockpit Builder</title>
+    <style>
+      :root {
+        --ink: #171812;
+        --olive-950: #171b13;
+        --olive-900: #202719;
+        --olive-800: #303925;
+        --olive-700: #465134;
+        --steel-100: #f4f0e5;
+        --steel-200: #d8d0bc;
+        --steel-300: #b0a78f;
+        --steel-500: #756e5b;
+        --brass: #b8a16a;
+        --brass-dark: #66593b;
+        --paper: #f4f1e8;
+        --danger: #c24d3f;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        color: var(--steel-100);
+        background:
+          radial-gradient(circle at 20% 10%, rgba(255, 255, 255, 0.08), transparent 26rem),
+          radial-gradient(circle at 85% 20%, rgba(184, 161, 106, 0.16), transparent 22rem),
+          linear-gradient(135deg, #10120d, #252a1e 54%, #151710);
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      .page {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 34px 0 48px;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 340px 1fr;
+        gap: 34px;
+        align-items: center;
+      }
+
+      .badge {
+        position: relative;
+        aspect-ratio: 0.88;
+        display: grid;
+        place-items: center;
+        filter: drop-shadow(0 24px 40px rgba(0, 0, 0, 0.42));
+      }
+
+      .shield {
+        position: absolute;
+        inset: 20px 44px 0;
+        background:
+          linear-gradient(135deg, rgba(255, 255, 255, 0.18), transparent 28%),
+          linear-gradient(180deg, #556146, #1f271a 58%, #10140f);
+        clip-path: polygon(50% 0, 91% 13%, 91% 66%, 50% 100%, 9% 66%, 9% 13%);
+        border: 4px solid var(--steel-300);
+        box-shadow:
+          inset 0 0 0 6px rgba(0, 0, 0, 0.32),
+          inset 0 -28px 46px rgba(0, 0, 0, 0.38);
+      }
+
+      .tag {
+        position: absolute;
+        top: 0;
+        width: 82px;
+        height: 122px;
+        border-radius: 10px 10px 16px 16px;
+        background:
+          linear-gradient(135deg, rgba(255, 255, 255, 0.55), transparent 24%),
+          linear-gradient(180deg, #d8d2c0, #8f8875);
+        border: 3px solid #2a2b24;
+        transform: rotate(-5deg);
+        box-shadow: 0 10px 18px rgba(0, 0, 0, 0.36);
+      }
+
+      .tag::before {
+        content: "";
+        position: absolute;
+        top: 12px;
+        left: 50%;
+        width: 15px;
+        height: 15px;
+        border: 4px solid #2b2d25;
+        border-radius: 50%;
+        transform: translateX(-50%);
+        background: #e9e3d2;
+      }
+
+      .tag::after {
+        content: "★";
+        position: absolute;
+        inset: 44px 0 auto;
+        color: #1e2419;
+        font-size: 44px;
+        text-align: center;
+        line-height: 1;
+      }
+
+      .wings {
+        position: absolute;
+        top: 118px;
+        width: 248px;
+        height: 54px;
+        background:
+          linear-gradient(90deg, transparent 0 18%, var(--steel-300) 18% 42%, transparent 42% 58%, var(--steel-300) 58% 82%, transparent 82%),
+          linear-gradient(180deg, transparent 0 24%, rgba(0, 0, 0, 0.4) 24% 34%, transparent 34% 44%, rgba(0, 0, 0, 0.4) 44% 54%, transparent 54%);
+        opacity: 0.9;
+      }
+
+      .plate {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 154px;
+        padding: 20px 18px 16px;
+        text-align: center;
+        background:
+          linear-gradient(135deg, rgba(255, 255, 255, 0.18), transparent 24%),
+          linear-gradient(180deg, #4b5542, #252c21 60%, #171b15);
+        border: 5px solid var(--steel-300);
+        box-shadow:
+          inset 0 0 0 3px #11140f,
+          0 12px 24px rgba(0, 0, 0, 0.38);
+        clip-path: polygon(5% 0, 95% 0, 100% 24%, 100% 76%, 95% 100%, 5% 100%, 0 76%, 0 24%);
+      }
+
+      .plate h1 {
+        margin: 0;
+        color: var(--paper);
+        font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
+        font-size: clamp(42px, 7vw, 74px);
+        letter-spacing: 2px;
+        line-height: 0.9;
+        text-transform: uppercase;
+        text-shadow:
+          0 3px 0 #111,
+          0 6px 0 rgba(0, 0, 0, 0.22);
+      }
+
+      .subplate {
+        position: absolute;
+        left: 48px;
+        right: 48px;
+        top: 256px;
+        padding: 12px 18px;
+        text-align: center;
+        background: linear-gradient(180deg, #c9c1aa, #746c58);
+        border: 4px solid #171812;
+        box-shadow: inset 0 0 0 3px var(--brass-dark);
+      }
+
+      .subplate span {
+        color: #1a1b15;
+        font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
+        font-size: 34px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .copy {
+        padding: 26px 0;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0 0 12px;
+        color: var(--brass);
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow::before,
+      .eyebrow::after {
+        content: "";
+        width: 42px;
+        height: 2px;
+        background: var(--brass);
+      }
+
+      h2 {
+        max-width: 760px;
+        margin: 0;
+        color: var(--paper);
+        font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
+        font-size: clamp(44px, 7vw, 86px);
+        line-height: 0.92;
+        text-transform: uppercase;
+        text-shadow: 0 5px 0 rgba(0, 0, 0, 0.34);
+      }
+
+      .lead {
+        max-width: 640px;
+        margin: 18px 0 0;
+        color: #ded8c8;
+        font-size: 20px;
+        line-height: 1.45;
+      }
+
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+        margin-top: 28px;
+      }
+
+      .step {
+        position: relative;
+        min-height: 178px;
+        padding: 22px 20px 20px;
+        background:
+          linear-gradient(135deg, rgba(255, 255, 255, 0.14), transparent 30%),
+          linear-gradient(180deg, #303827, #1b2118);
+        border: 3px solid var(--steel-500);
+        box-shadow:
+          inset 0 0 0 2px rgba(0, 0, 0, 0.46),
+          0 14px 28px rgba(0, 0, 0, 0.28);
+        clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+      }
+
+      .number {
+        display: inline-grid;
+        place-items: center;
+        width: 42px;
+        height: 42px;
+        margin-bottom: 16px;
+        color: var(--ink);
+        background: linear-gradient(180deg, var(--steel-100), var(--steel-300));
+        border: 3px solid #11140f;
+        border-radius: 50%;
+        font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
+        font-size: 24px;
+        box-shadow: 0 4px 0 rgba(0, 0, 0, 0.32);
+      }
+
+      .step h3 {
+        margin: 0 0 10px;
+        color: var(--paper);
+        font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
+        font-size: 28px;
+        line-height: 1;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+      }
+
+      .step p {
+        margin: 0;
+        color: #ddd6c5;
+        font-size: 17px;
+        line-height: 1.4;
+      }
+
+      .step strong {
+        color: #fff7dc;
+      }
+
+      .bar {
+        margin-top: 28px;
+        padding: 16px 20px;
+        color: var(--ink);
+        background: linear-gradient(180deg, #d7cdaa, #a99662);
+        border: 3px solid #1a1c15;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        text-align: center;
+        box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.24);
+      }
+
+      @media (max-width: 860px) {
+        .hero {
+          grid-template-columns: 1fr;
+          gap: 18px;
+        }
+
+        .badge {
+          width: min(320px, 100%);
+          margin: 0 auto;
+        }
+
+        .steps {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero" aria-labelledby="titulo">
+        <div class="badge" aria-hidden="true">
+          <div class="shield"></div>
+          <div class="tag"></div>
+          <div class="wings"></div>
+          <div class="plate">
+            <h1>Cockpit</h1>
+          </div>
+          <div class="subplate">
+            <span>Builder</span>
+          </div>
+        </div>
+
+        <div class="copy">
+          <p class="eyebrow">Primeira missão</p>
+          <h2 id="titulo">Crie seu cockpit em poucos cliques</h2>
+          <p class="lead">
+            Siga os passos abaixo sem mexer em nada técnico. Quando chegar em
+            <strong>Open Project</strong>, pare: seu ambiente já estará aberto.
+          </p>
+        </div>
+      </section>
+
+      <section class="steps" aria-label="Passo a passo">
+        <article class="step">
+          <span class="number">1</span>
+          <h3>Abra o link</h3>
+          <p>
+            Entre em <strong>github.com/Workspace-Builder/cockpit-builder</strong>.
+          </p>
+        </article>
+
+        <article class="step">
+          <span class="number">2</span>
+          <h3>Use o modelo</h3>
+          <p>
+            Clique no botão verde <strong>Use this template</strong>.
+          </p>
+        </article>
+
+        <article class="step">
+          <span class="number">3</span>
+          <h3>Crie sua cópia</h3>
+          <p>
+            Clique em <strong>Create a new repository</strong>.
+          </p>
+        </article>
+
+        <article class="step">
+          <span class="number">4</span>
+          <h3>Dê um nome</h3>
+          <p>
+            Escreva <strong>meu-cockpit-builder</strong> e confirme em
+            <strong>Create repository</strong>.
+          </p>
+        </article>
+
+        <article class="step">
+          <span class="number">5</span>
+          <h3>Abra o Nimbalyst</h3>
+          <p>
+            Clique em <strong>Clone Repository</strong> ou
+            <strong>Clonar Projeto</strong>.
+          </p>
+        </article>
+
+        <article class="step">
+          <span class="number">6</span>
+          <h3>Open Project</h3>
+          <p>
+            Cole o link da sua cópia, clique em <strong>Clone</strong> e depois
+            em <strong>Open Project</strong>.
+          </p>
+        </article>
+      </section>
+
+      <div class="bar">Pare aqui. O projeto já está aberto.</div>
+    </main>
+  </body>
+</html>
+

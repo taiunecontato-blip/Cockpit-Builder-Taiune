@@ -1,0 +1,20 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+
+# Logs e caches
+*.log
+*.tmp
+.cache/
+
+# Apps que possam ser adicionados depois
+node_modules/
+.next/
+out/
+dist/
+build/
+
+# Memoria privada opcional
+40-Memoria/Privada/
+
